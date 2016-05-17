@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html ng-app="formTableApp">
+<head>
+<title>Simple form & table app on Angular.js</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href = "css/bootstrap.min.css">
+<link rel="stylesheet" href = "css/style.css">
+<script src="libraries/angular.min.js"></script>
+<script src="controllers/controller.js"></script>
+<script src="validators/validator.js"></script>
+</head>
+<body ng-controller="personCtrl">
+<table class="table">
+	<tr>
+		<th>
+			<a ng-click="orderByField='firstName'; reverseSort = !reverseSort">First Name</a>
+		</th>
+		<th>
+			<a ng-click="orderByField='lastName'; reverseSort = !reverseSort">Last Name</a>
+		</th>
+		<th>
+			<a ng-click="orderByField='phone'; reverseSort = !reverseSort">Phone</a>
+		</th>
+		<th>
+			<a ng-click="orderByField='gender'; reverseSort = !reverseSort">Gender</a>
+		</th>
+		<th>
+			<a ng-click="orderByField='age'; reverseSort = !reverseSort">Age</a>
+		</th>
+		<th>Options</th>
+	</tr>
+	<tr ng-repeat="person in people | orderBy:orderByField:reverseSort">
+		<td>{{person.firstName}}</td>
+		<td>{{person.lastName}}</td>
+		<td>{{person.phone}}</td>
+		<td>{{person.gender}}</td>
+		<td>{{person.age}}</td>
+		<td>
+			<input type="button" value="Remove" class="btn btn-primary" ng-click="removeRow(person.phone)"/>
+		</td>
+	</tr>
+</table>
+
+<form class="form-horizontal" role="form" ng-submit="addRow()" name="personForm">
+	<div class="form-group">
+		<label class="col-md-2 control-label">First Name</label>
+		<div class="col-md-4">
+			<input type="text"class="form-control" title = "Non-empty name with A-Z a-z symbols expected!" name="firstName"
+			maxlength = "30"
+			ng-model="firstName" required names-validation-directive />
+			<span style = "color: red;"ng-show="personForm.firstName.$touched && personForm.firstName.$invalid">
+				Non-empty name with A-Z a-z symbols expected!
+			</span>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-md-2 control-label">Last Name</label>
+		<div class="col-md-4">
+			<input type="text" class="form-control" name="lastName" 
+				title = "Non-empty name with A-Z a-z symbols expected!"
+				maxlength = "30"
+				ng-model="lastName" required names-validation-directive />
+			<span style = "color: red;"ng-show="personForm.lastName.$touched && personForm.lastName.$invalid">
+				Non-empty name with A-Z a-z symbols expected!
+			</span>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-md-2 control-label">Phone</label>
+		<div class="col-md-4">
+			<input type="tel" class="form-control" 	name="phone" 
+				pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+				placeholder="654-927-1483"
+				title = "Tel. number in ddd-ddd-dddd format"
+				required
+				ng-model="phone" 
+				phone-validation-directive
+				/>
+			<span style = "color: red;"ng-show="personForm.phone.$touched && personForm.phone.$invalid">
+				Tel. number in ddd-ddd-dddd format expected!</br>Also duplicate phone numbers in table are unacceptable!
+			</span>
+		</div>
+	</div>
+	<div class="form-group" class="row">
+		<label class="col-md-2 control-label">Gender</label>
+		<div class="col-md-4 btn-group">
+			<label class="radio-inline">
+				<input type="radio" name="gender" value="Male"  ng-model="gender" required gender-validation-directive />
+				<strong>Male</strong>
+			</label>
+			<label class="radio-inline">
+				<input type="radio" name="gender" value="Female" ng-model="gender" required gender-validation-directive />
+				<strong>Female</strong>
+			</label>
+			<span class="radio-inline" style = "color: red;"ng-show="personForm.gender.$touched && personForm.gender.$invalid">
+				Gender field is required!
+			</span>
+		</div>
+	</div>
+  
+	<div class="form-group">
+		<label class="col-md-2 control-label">Age</label>
+		<div class="col-md-4">
+			<input type="number" class="form-control" name="age" min = "18" max= "100"
+				 title = "Reasonable age, please. Also you should be at least 18 years old to register."
+				ng-model="age" required age-validation-directive/>
+			<span style = "color: red;"ng-show="personForm.age.$touched && personForm.age.$invalid">
+				Reasonable age, please. Also you should be at least 18 years old to register.
+			</span>
+		</div>
+	</div>
+	<div class="form-group">								
+		<div style="padding-left:38%;">
+			<input 
+				type="submit" value="Add to table" class="btn btn-primary"
+				ng-disabled="personForm.$invalid"
+			/>
+		</div>
+	</div>
+</form>
+</body>
+</html>
