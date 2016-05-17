@@ -1,5 +1,5 @@
 Simple form & table app on Angular.js v1.0	
-htttps://github.com/MaxDunaevsky/simpleFormTableAppOnAngularJs.git
+https://github.com/MaxDunaevsky/simpleFormTableAppOnAngularJs.git
 (c) 2016 MaxDunaevsky (MaxDunaievskyi@gmail.com)
 
 Features:
